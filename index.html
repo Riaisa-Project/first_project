@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>Latihan java script</title>
+</head>
+<body>
+<header>
+  <h1>LATIHAN BAHASA JAWA SCRIPT</h1>
+</header>
+
+<!-- LATIHAN 1: KALKULATOR -->
+<section>
+  <h2>Kalkulator Sederhana</h2>
+  <input type="number" id="num1" placeholder="Angka 1">
+  <input type="number" id="num2" placeholder="Angka 2"><br>
+  <button onclick="hitung('+')">+</button>
+  <button onclick="hitung('-')">-</button>
+  <button onclick="hitung('*')">×</button>
+  <button onclick="hitung('/')">÷</button>
+  <p id="hasil"></p>
+</section>
+
+<!-- LATIHAN 2: DAFTAR BELANJA -->
+<section>
+  <h2>Daftar Belanja</h2>
+  <input type="text" id="itemInput" placeholder="Tambah item">
+  <button onclick="tambahItem()">Tambah</button>
+  <ul id="daftarBelanja"></ul>
+</section>
+
+<!-- LATIHAN 3: JAM DIGITAL -->
+<section>
+  <h2>Jam Digital & Kalender</h2>
+  <div class="clock" id="jam"></div>
+  <div class="date" id="tanggal"></div>
+</section>
+
+<!-- LATIHAN 4: QUIZ INTERAKTIF -->
+<section>
+  <h2>Quiz Interaktif</h2>
+  <div id="quiz-container">
+    <p id="question"></p>
+    <div id="options"></div>
+    <p id="score"></p>
+  </div>
+</section>
+
+<script>
+/* ========== LATIHAN 1: KALKULATOR ========== */
+function hitung(op) {
+  const n1 = parseFloat(document.getElementById('num1').value);
+  const n2 = parseFloat(document.getElementById('num2').value);
+  const hasil = document.getElementById('hasil');
+  if (isNaN(n1) || isNaN(n2)) {
+    hasil.textContent = 'Masukkan kedua angka!';
+    return;
+  }
+  let res;
+  switch(op) {
+    case '+': res = n1 + n2; break;
+    case '-': res = n1 - n2; break;
+    case '*': res = n1 * n2; break;
+    case '/': 
+      res = n2 === 0 ? 'Tidak bisa dibagi 0' : n1 / n2; 
+      break;
+  }
+  hasil.textContent = 'Hasil: ' + res;
+}
+
+/* ========== LATIHAN 2: DAFTAR BELANJA ========== */
+let daftar = JSON.parse(localStorage.getItem('belanja')) || [];
+function simpan() {
+  localStorage.setItem('belanja', JSON.stringify(daftar));
+}
+function renderDaftar() {
+  const ul = document.getElementById('daftarBelanja');
+  ul.innerHTML = '';
+  daftar.forEach((item, index) => {
+    const li = document.createElement('li');
+    li.textContent = item;
+    const btn = document.createElement('button');
+    btn.textContent = 'Hapus';
+    btn.className = 'hapus-btn';
+    btn.onclick = () => {
+      daftar.splice(index, 1);
+      simpan();
+      renderDaftar();
+    };
+    li.appendChild(btn);
+    ul.appendChild(li);
+  });
+}
+function tambahItem() {
+  const input = document.getElementById('itemInput');
+  const val = input.value.trim();
+  if (!val) return;
+  daftar.push(val);
+  simpan();
+  renderDaftar();
+  input.value = '';
+}
+renderDaftar();
+
+/* ========== LATIHAN 3: JAM DIGITAL ========== */
+function updateJam() {
+  const now = new Date();
+  const jam = now.getHours().toString().padStart(2,'0');
+  const menit = now.getMinutes().toString().padStart(2,'0');
+  const detik = now.getSeconds().toString().padStart(2,'0');
+  document.getElementById('jam').textContent = `${jam}:${menit}:${detik}`;
+  
+  const hari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'][now.getDay()];
+  const bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'][now.getMonth()];
+  document.getElementById('tanggal').textContent = `${hari}, ${now.getDate()} ${bulan} ${now.getFullYear()}`;
+}
+setInterval(updateJam, 1000);
+updateJam();
+
+/* ========== LATIHAN 4: QUIZ INTERAKTIF ========== */
+const quizData = [
+  { q: "apa unsur yang membentuk senyawa air", a: ["H2O","NaCl","H2O2","CO2"], c: "H2O" },
+  { q: "2 + 2 = ?", a: ["3","4","5","6"], c: "4" },
+  { q: "Planet terdekat dari matahari?", a: ["Venus","Merkurius","Bumi","Mars"], c: "Merkurius" },
+  { q: "Apa Ikan terbesar di lautan?", a: ["Paus","Hiu","Orca","Hiu Paus"], c: "Hiu Paus" },
+  { q: "Apa Hewan tercepat di darat?", a: ["Cheetah","Singa","Kuda","Rusa"], c: "Cheetah" }
+
+];
+let index = 0, score = 0;
+
+function loadQuiz() {
+  const q = quizData[index];
+  document.getElementById('question').textContent = q.q;
+  const opt = document.getElementById('options');
+  opt.innerHTML = '';
+  q.a.forEach(jawaban => {
+    const btn = document.createElement('button');
+    btn.textContent = jawaban;
+    btn.className = 'quiz-option';
+    btn.onclick = () => cekJawaban(jawaban);
+    opt.appendChild(btn);
+  });
+}
+function cekJawaban(j) {
+  if (j === quizData[index].c) score++;
+  index++;
+  if (index < quizData.length) {
+    loadQuiz();
+  } else {
+    document.getElementById('quiz-container').innerHTML = `<h3>Skor Akhir: ${score} dari ${quizData.length}</h3>`;
+  }
+}
+loadQuiz();
+</script>
+</body>
+</html>

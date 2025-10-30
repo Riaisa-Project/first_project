@@ -1,0 +1,79 @@
+ body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #222;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background: #2b5ce0;
+    color: white;
+    padding: 15px;
+    text-align: center;
+  }
+  section {
+    background: white;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 700px;
+  }
+  h2 {
+    color: #2b5ce0;
+    border-bottom: 2px solid #2b5ce0;
+    padding-bottom: 5px;
+  }
+  input, button, select {
+    padding: 8px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  button {
+    cursor: pointer;
+    background-color: #2b5ce0;
+    color: white;
+  }
+  button:hover {
+    background-color: #1c44a3;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  ul li {
+    padding: 6px;
+    background: #f1f1f1;
+    margin: 5px 0;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .hapus-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .hapus-btn:hover {
+    background: darkred;
+  }
+  .clock {
+    font-size: 2em;
+    font-weight: bold;
+  }
+  .date {
+    margin-top: 10px;
+    font-size: 1.2em;
+  }
+  .quiz-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin: 8px 0;
+  }
